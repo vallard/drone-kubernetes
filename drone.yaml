@@ -1,0 +1,49 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: drone
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: drone
+    spec:
+      containers:
+      - name: drone
+        image: drone/drone:0.4
+        env:
+        - name: DATABASE_DRIVER
+          valueFrom:
+            secretKeyRef:
+              name: drone-secrets
+              key: DATABASE_DRIVER
+        - name: DATABASE_CONFIG
+          valueFrom:
+            secretKeyRef:
+              name: drone-secrets
+              key: DATABASE_CONFIG
+        - name: REMOTE_DRIVER
+          valueFrom:
+            secretKeyRef:
+              name: drone-secrets
+              key: REMOTE_DRIVER
+        - name: REMOTE_CONFIG
+          valueFrom:
+            secretKeyRef:
+              name: drone-secrets
+              key: REMOTE_CONFIG
+        volumeMounts:
+        - mountPath: /var/lib/drone
+          name: drone
+        - mountPath: /var/run/docker.sock
+          name: docker-sock
+        ports:
+        - containerPort: 8000
+          hostPort: 8000 # drone docs say that behind nginx it has to run on port 8000
+      volumes: 
+        - name: drone
+          emptyDir: {}
+        - name: docker-sock
+          hostPath: 
+            path: /var/run/docker.sock
