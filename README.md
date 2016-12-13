@@ -91,3 +91,4 @@ http {
 * Make sure your containers have outbound internet access.  E.g: spin up busybox and run ```nslookup github.com``` if this doesn't work you'll get infinite loop.  I solved this by running ```iptables -t nat -A POSTROUTING ! -d 10.0.0.0/8 -o ens3 -j MASQUERADE```
 
 
+* Make sure you encoded your secrets right.  You can always just use the environment variable in the ```drone.yaml``` file instead of reading from the base64 encoded secrets.  You will get unauthenticated errors if that happens. 
