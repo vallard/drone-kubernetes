@@ -11,30 +11,28 @@ spec:
     spec:
       containers:
       - name: drone
-        image: drone/drone:0.5
+        image: drone/drone:0.4
         env:
-        - name: DRONE_GITHUB
-          value: "true"
-        - name: DRONE_GITHUB_CLIENT
+        - name: DATABASE_DRIVER
           valueFrom:
             secretKeyRef:
               name: drone-secrets
-              key: DRONE_GITHUB_CLIENT
-        - name: DRONE_GITHUB_SECRET
+              key: DATABASE_DRIVER
+        - name: DATABASE_CONFIG
           valueFrom:
             secretKeyRef:
               name: drone-secrets
-              key: DRONE_GITHUB_SECRET
-        - name: DRONE_SECRET
+              key: DATABASE_CONFIG
+        - name: REMOTE_DRIVER
           valueFrom:
             secretKeyRef:
               name: drone-secrets
-              key: DRONE_SECRET
-        - name: DRONE_OPEN
-          value: "true"
-        # see: http://readme.drone.io/0.5/install/authorization/
-        #- name: DRONE_ORGS
-        #  value: myorg 
+              key: REMOTE_DRIVER
+        - name: REMOTE_CONFIG
+          valueFrom:
+            secretKeyRef:
+              name: drone-secrets
+              key: REMOTE_CONFIG
         volumeMounts:
         - mountPath: /var/lib/drone
           name: drone
@@ -46,11 +44,6 @@ spec:
       volumes: 
         - name: drone
           emptyDir: {}
-        # Use this for openstack cinder driver instead of emptyDir. 
-        #- name: drone
-        #  cinder: 
-        #    volumeID: 82a8cc65-7379-4240-b428-f4c7b9b86465
-        #    fsType: ext4
         - name: docker-sock
           hostPath: 
             path: /var/run/docker.sock

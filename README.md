@@ -2,6 +2,11 @@
 
 To get CI/CD in your environment a good way is to run [drone.io](http://drone.io) on kubernetes.  
 
+```
+Updated for Drone 0.5
+Drone 0.4 available in 0.4 subdirectory 
+```
+
 ## Prerequisites
 * Working Kubernetes
 * NGINX controller or Ingress controller
