@@ -46,11 +46,13 @@ kubectl create -f drone-secrets.yaml
 
 #### Create the drone deployment
 
-This file uses the secrets file.  
+This will spawn 1 drone-server that mounts an empty directory.  We use cinder, so if you want to use that for persistent storage see the commented out section instead in the ```drone-server.yaml``` file. 
 
 ```
-kubectl create -f drone.yaml
+kubectl create -f drone-server.yaml
+kubectl create -f drone-agent.yaml
 ```
+
 
 If all goes well drone should be up.  
 

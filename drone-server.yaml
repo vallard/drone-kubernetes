@@ -38,8 +38,6 @@ spec:
         volumeMounts:
         - mountPath: /var/lib/drone
           name: drone
-        - mountPath: /var/run/docker.sock
-          name: docker-sock
         ports:
         - containerPort: 8000
           hostPort: 8000 # drone docs say that behind nginx it has to run on port 8000
@@ -51,6 +49,3 @@ spec:
         #  cinder: 
         #    volumeID: 82a8cc65-7379-4240-b428-f4c7b9b86465
         #    fsType: ext4
-        - name: docker-sock
-          hostPath: 
-            path: /var/run/docker.sock
